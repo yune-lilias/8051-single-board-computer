@@ -86,6 +86,19 @@ CLR P0.6                                 ；将P0.6置0
 LCALL DELAY                           ；调用延时函数，使数码管点亮延时一段时间
 LJMP DIG                              ；跳转到句首，使功能能够被多次实现
 RET
+
+DELAY:
+PUSH 44H
+PUSH 45H
+MOV R7,200
+DEL:MOV 44H,#200
+DEL1:MOV 45H,#200
+DEL2:DJNZ 45H,DEL2
+    DJNZ 44H,DEL1
+POP 44H
+POP 45H
+RET
+
 TABLE3:DB	11111100B	
        	DB	00001100B	
 	DB	11011010B	
