@@ -1,0 +1,47 @@
+SECDUE0:
+MOV P0,#00H
+MOV R0,#3                          ；设置闪烁次数为3
+SECDUE:
+MOV R2,#0FFH                       ；设置一次闪烁实际上为循环0FFH次
+SECDUE1:
+SETB P0.0
+CLR P0.1
+CLR P0.2
+CLR P0.3                           ；设置初值点亮1个数码管，下同
+MOV R5,#9EH
+MOV R4,#0
+LCALL DIGI                         ；切换数码管显示函数，下同
+SECDUE2:
+CLR P0.0
+SETB P0.1
+CLR P0.2
+CLR P0.3
+MOV R5,#0EEH
+MOV R4,#0
+LCALL DIGI
+SECDUE3:
+CLR P0.0
+CLR P0.1
+SETB P0.2
+CLR P0.3
+MOV R5,#0EEH
+MOV R4,#0
+LCALL DIGI
+SECDUE4:
+CLR P0.0
+CLR P0.1
+CLR P0.2
+SETB P0.3
+MOV R5,#02H
+MOV R4,#0
+LCALL DIGI
+DJNZ R2,SECDUE1
+AJMP DUOUT
+DUOUT:
+LCALL DELAY                                   ；多次调用延时以加长时间
+LCALL DELAY
+LCALL DELAY
+DJNZ R0,SECDUE
+LJMP DUEND
+DUEND:
+RETI
